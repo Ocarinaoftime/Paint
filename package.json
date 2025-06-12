@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "crypto": "^1.0.1",
+    "discord.js": "^14.16.3",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.11.5",
+    "socket.io": "^4.8.1",
+    "socketio": "^1.0.0"
+  },
+  "name": "database",
+  "version": "1.0.0",
+  "main": "db.mjs",
+  "license": "MIT",
+  "scripts": {
+    "testscript": "node db.mjs",
+    "testrun": "yarn testscript"
+  }
+}
