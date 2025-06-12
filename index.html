@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #cursor {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1><input type="number" id="size" name="size" value="10"/></h1>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <canvas width="500" height="500" style="border: 2px solid black" id="paint"></canvas>
+    <script src="socket.io.js"></script>
+    <script src="main.ts" type="text/babel"></script>
+</body>
+</html>
