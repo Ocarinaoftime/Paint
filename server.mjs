@@ -40,6 +40,10 @@ app.get('/main.ts', (req, res) => {
   res.sendFile(join(__dirname, 'main.ts'));
 });
 
+app.get('/canvas.ts', (req, res) => {
+  res.sendFile(join(__dirname, 'canvas.ts'));
+});
+
 app.get('/socket.io.js', (req, res) => {
   res.sendFile(join(__dirname, 'socket.io.js'));
 });
@@ -56,29 +60,37 @@ let p2Session;
 io.engine.use(sessionMiddleware);
 io.on('connection', (socket) => {
   numOfPeople++;
+  let color = "blue";
   console.log(numOfPeople, 'user(s) connected');
   let room1Size = io.sockets.adapter.rooms.get("room1")?.size != undefined ? io.sockets.adapter.rooms.get("room1").size : 0;
   let room2Size = io.sockets.adapter.rooms.get("room2")?.size != undefined ? io.sockets.adapter.rooms.get("room2").size : 0;
   let currentPerson;
+  let currRoom;
   if (room1Size == 1 && (room2Size == 0 || room2Size == 1)) {
     socket.join("room2");
-    socket.emit("currRoom", 2);
+    currRoom = 2;
+    color = "red";
+    socket.emit("currRoom", {currRoom, color});
     currentPerson = 2;
   } else if (room2Size == 1 && (room1Size == 0 || room1Size == 1)) {
     socket.join("room1");
-    socket.emit("currRoom", 1);
+    currRoom = 1;
+    color = "blue";
+    socket.emit("currRoom", {currRoom, color});
     currentPerson = 1;
   } else if (room1Size == 0 && room2Size == 0) {
     socket.join("room1");
-    socket.emit("currRoom", 1);
+    currRoom = 1;
+    color = "blue";
+    socket.emit("currRoom", {currRoom, color});
     currentPerson = 1
   } else {
     socket.emit("Error", "Only two people are allowed!");
     socket.client.conn.close();
   }
   console.log("Room 1 size:", room1Size, "\nRoom 2 size: ", room2Size);
-  socket.on('dot', ({whom, x, y, size}) => {
-    io.to(`room${whom}`).emit("dot", {x, y, size});
+  socket.on('dot', ({whom, x, y, size, col}) => {
+    io.to(`room${whom}`).emit("dot", {x, y, size, col});
   })
   socket.on('disconnect', () => {
     numOfPeople--;
